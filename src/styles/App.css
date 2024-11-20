@@ -1,0 +1,17 @@
+.App {
+    text-align: center;
+}
+
+header ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+header ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+header ul li a {
+    text-decoration: none;
+}
