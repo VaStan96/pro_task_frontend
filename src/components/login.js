@@ -1,58 +1,65 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Login = ({ onLogin }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+function Login() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    const handleLogin = async (event) => {
+        event.preventDefault();
+        try {
+          const response = await fetch("http://localhost:8080/api/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
 
-    // Простейшая валидация
-    if (!username || !password) {
-      setError("Please fill in both fields.");
-      return;
-    }
+          if (response.ok) {
+            const data = await response.json();
+            // Сохраняем токен в локальное хранилище
+            localStorage.setItem("authToken", data.token);
 
-    // Очистить ошибку, если все поля заполнены
-    setError("");
+            // Перенаправляем на страницу задач
+            navigate("/tasks");
 
-    // Вызвать функцию из пропсов (onLogin), передав логин и пароль
-    onLogin(username, password);
-  };
+          } else {
+            alert("Invalid credentials. Please try again.");
+          }
+        } catch (error) {
+          console.error("Login failed:", error);
+          alert("An error occurred. Please try again later.");
+        }
+    };
 
-  return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username</label>
+    return (
+      <form onSubmit={handleLogin}>
+        <h2>Login</h2>
+        <label>
+          Username:
           <input
-            id="username"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter your username"
+            required
           />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
+        </label>
+        <br />
+        <label>
+          Password:
           <input
-            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
+            required
           />
-        </div>
-
-        {/* Отображение ошибки, если она есть */}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
+        </label>
+        <br />
         <button type="submit">Login</button>
       </form>
-    </div>
-  );
-};
+    );
+}
 
 export default Login;

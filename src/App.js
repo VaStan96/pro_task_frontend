@@ -1,15 +1,23 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/home";
-import Dashboard from "./pages/dashboard";
+import Login from "./components/login";
+import TaskList from "./components/tasklist";
+import TaskForm from "./components/taskform";
+import Notifications from "./components/notifications";
+import Header from "./components/header";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
+      <Header />
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/tasks" element={<TaskList />} />
+          <Route path="/tasks/new" element={<TaskForm />} />
+          <Route path="/notifications" element={<Notifications />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
