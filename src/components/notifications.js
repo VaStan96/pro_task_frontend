@@ -137,7 +137,9 @@ function Notifications() {
               <td>{notif.task_name}</td>
               <td>{notif.user_name}</td>
               <td>{new Date(notif.created_at).toLocaleString()}</td>
-              <td>{notif.is_read ? "Прочитано" : "Непрочитано"}</td>
+              <td style={{ color: notif.is_read ? "green" : "red"}}>
+                {notif.is_read ? "Прочитано" : "Непрочитано"}
+                </td>
               <td>
                 <button onClick={() => markAsRead(notif.id)}>Reading</button>
               </td>
