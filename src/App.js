@@ -1,12 +1,18 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Login from "./components/login";
 import TaskList from "./components/tasklist";
 import TaskForm from "./components/taskform";
 import Notifications from "./components/notifications";
 import Header from "./components/header";
 
+import setupLogging from "./utils/logger";
+
 function App() {
+
+  setupLogging();
+
   return (
     <Router>
       <Header />
